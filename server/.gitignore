@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Compiled binaries (common Go output names)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+game_pass
+server
+
+# Go build/test artifacts
+*.test
+*.out
+
+# air (hot reload) temp files
+tmp/
+.air.toml.bak
+
+# IDE
+.vscode/
+.idea/
