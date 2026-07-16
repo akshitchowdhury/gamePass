@@ -40,6 +40,7 @@ func main() {
 
 	fmt.Println("connected to postgres!")
 	exportHandlers(db)
+	exportUserHandlers(db)
 	fmt.Println("listening on :8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)

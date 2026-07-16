@@ -5,6 +5,7 @@ import (
 	gamecategory "game_pass/GameCategory"
 	gamestudio "game_pass/GameStudio"
 	games "game_pass/Games"
+	user "game_pass/User"
 	"net/http"
 )
 
@@ -30,5 +31,10 @@ func exportHandlers(db *sql.DB) {
 	http.HandleFunc("/pushNewGames", WithCORS(func(w http.ResponseWriter, r *http.Request) { games.HandlePushNewGames(db, w, r) }))
 	http.HandleFunc("/pushNewStudios", WithCORS(func(w http.ResponseWriter, r *http.Request) { gamestudio.HandlePushStudio(db, w, r) }))
 	http.HandleFunc("/pushNewGameCat", WithCORS(func(w http.ResponseWriter, r *http.Request) { gamecategory.HandlePushNewGameCategories(db, w, r) }))
+
+}
+func exportUserHandlers(db *sql.DB) {
+
+	http.HandleFunc("/addUser", WithCORS(func(w http.ResponseWriter, r *http.Request) { user.AddUser(db, w, r) }))
 
 }
