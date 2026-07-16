@@ -26,6 +26,7 @@ func WithCORS(next http.HandlerFunc) http.HandlerFunc {
 func exportHandlers(db *sql.DB) {
 
 	http.HandleFunc("/getAllGames", WithCORS(func(w http.ResponseWriter, r *http.Request) { games.HandleFetchAllGames(db, w, r) }))
+	http.HandleFunc("/paginateGames", WithCORS(func(w http.ResponseWriter, r *http.Request) { games.PaginateGames(db, w, r) }))
 	http.HandleFunc("/pushNewGames", WithCORS(func(w http.ResponseWriter, r *http.Request) { games.HandlePushNewGames(db, w, r) }))
 	http.HandleFunc("/pushNewStudios", WithCORS(func(w http.ResponseWriter, r *http.Request) { gamestudio.HandlePushStudio(db, w, r) }))
 	http.HandleFunc("/pushNewGameCat", WithCORS(func(w http.ResponseWriter, r *http.Request) { gamecategory.HandlePushNewGameCategories(db, w, r) }))

@@ -32,6 +32,7 @@ type CreateGameRequest struct {
 type GameList struct {
 	GameStack []*CreateGameRequest `json:"games"`
 }
+
 type OgList struct {
 	GameStack []*Game `json:"games"`
 }

@@ -66,7 +66,13 @@ func HandleFetchAllGames(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error iterating game rows", http.StatusInternalServerError)
 		return
 	}
+	// var partGames OgList
 
+	// for _, game := range gameLsit.GameStack[:len(gameLsit.GameStack)/2] {
+	// 	partGames.GameStack = append(partGames.GameStack, game)
+	// }
+
+	// fmt.Println(partGames)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(gameLsit)
 }
