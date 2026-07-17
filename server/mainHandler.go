@@ -36,5 +36,7 @@ func exportHandlers(db *sql.DB) {
 func exportUserHandlers(db *sql.DB) {
 
 	http.HandleFunc("/addUser", WithCORS(func(w http.ResponseWriter, r *http.Request) { user.AddUser(db, w, r) }))
+	http.HandleFunc("/favGame", WithCORS(func(w http.ResponseWriter, r *http.Request) { user.FavoritedGame(db, w, r) }))
+	http.HandleFunc("/getAllUsers", WithCORS(func(w http.ResponseWriter, r *http.Request) { user.FetchAllUsers(db, w, r) }))
 
 }

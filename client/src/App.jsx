@@ -1,23 +1,54 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import Login from './components/Login'
+import Store from './components/Store'
+import Toasts from './components/Toasts'
 
-function App() {
-  const [count, setCount] = useState(0)
+const SESSION_KEY = 'gamepass_session'
+
+export default function App() {
+  const [user, setUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null')
+    } catch {
+      return null
+    }
+  })
+  const [toasts, setToasts] = useState([])
+  const idRef = useRef(0)
+
+  // persist session
+  useEffect(() => {
+    if (user) localStorage.setItem(SESSION_KEY, JSON.stringify(user))
+    else localStorage.removeItem(SESSION_KEY)
+  }, [user])
+
+  const notify = useCallback((message, tone = 'info') => {
+    const id = ++idRef.current
+    setToasts((prev) => [...prev, { id, message, tone }])
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id))
+    }, 3200)
+  }, [])
+
+  const handleLogout = useCallback(() => {
+    setUser(null)
+    notify('Signed out. See you soon!', 'info')
+  }, [notify])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6 bg-gray-950 text-white">
-      <h1 className="text-4xl font-bold text-purple-400">Vite + React + Tailwind</h1>
-      <button
-        type="button"
-        onClick={() => setCount((c) => c + 1)}
-        className="rounded-lg bg-purple-600 px-6 py-3 font-medium transition hover:bg-purple-500"
-      >
-        Count is {count}
-      </button>
-      <p className="text-gray-400">
-        Edit <code className="rounded bg-gray-800 px-1.5 py-0.5">src/App.jsx</code> and save to test HMR
-      </p>
-    </div>
+    <>
+      <div className="app-aurora" />
+      {user ? (
+        <Store user={user} setUser={setUser} onLogout={handleLogout} notify={notify} />
+      ) : (
+        <Login
+          onAuthed={(u) => {
+            setUser(u)
+            notify(`Welcome, ${u.username}!`, 'success')
+          }}
+        />
+      )}
+      <Toasts items={toasts} />
+    </>
   )
 }
-
-export default App
