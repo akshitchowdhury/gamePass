@@ -6,6 +6,7 @@ import GameCard from './GameCard'
 import GameModal from './GameModal'
 import Pagination from './Pagination'
 import GameCover from './GameCover'
+import ChatWidget from './ChatWidget'
 
 const TABS = [
   { id: 'store', label: 'Store' },
@@ -260,6 +261,8 @@ export default function Store({ user, setUser, onLogout, notify }) {
           onClose={() => setActive(null)}
         />
       )}
+
+      <ChatWidget username={user.username} />
     </div>
   )
 }
